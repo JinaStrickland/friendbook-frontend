@@ -2,7 +2,7 @@ const postUrl = "http://localhost:3000/posts/"
 const userURL = "http://localhost:3000/users/"
 
 document.addEventListener("DOMContentLoaded", () => {
-    //fetchPosts()
+    fetchPosts()
     fetchUser()
     
 })
@@ -11,7 +11,14 @@ function fetchPosts() {
     const ul = document.querySelector("#post-text")
     fetch(postUrl)
     .then(res => res.json())
-    .then(posts => posts.forEach(post => displayPosts(post)))
+    .then(posts => posts.forEach(post => displayComments(post)))
+
+}
+function displayComments(post){
+    const c = document.querySelector("#comments")
+
+    post.comments.forEach(comment => c.innerText = comment)
+
 
 }
 
@@ -23,15 +30,24 @@ function fetchUser() {
 
 function printPosts(user){
   user.posts.forEach(post => displayPosts(post))
+
   const username = document.querySelector("#username")
   username.innerText = user.name
+
 }
 
 function displayPosts(post) {
-    const ul = document.querySelector("#post-text")
+    const div = document.querySelector("#posts")
     const p = document.createElement("p")
+
+    const button = document.createElement("button")
     p.innerHTML = post.post 
-    ul.append(p)
+
+    button.innerText = post.likes
+    div.append(p)
+    p.append(button)
+    
+
 }
 
 
