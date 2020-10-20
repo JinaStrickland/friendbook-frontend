@@ -2,7 +2,7 @@ const postUrl = "http://localhost:3000/posts/"
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchPosts()
-
+    
 })
 
 function fetchPosts() {
@@ -16,7 +16,10 @@ function fetchPosts() {
 
 function displayPosts(post) {
     const ul = document.querySelector("#post-text")
-    const li = document.createElement("li")
-    li.innerHTML = post.post
-    ul.append(li)
+    const p = document.createElement("p")
+    p.innerHTML = post.post + post.user_id
+    ul.append(p)
+
+
 }
+
