@@ -2,25 +2,8 @@ const postUrl = "http://localhost:3000/posts/"
 const userURL = "http://localhost:3000/users/"
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchPosts()
     fetchUser()
-    
 })
-
-function fetchPosts() {
-    const ul = document.querySelector("#post-text")
-    fetch(postUrl)
-    .then(res => res.json())
-    .then(posts => posts.forEach(post => displayComments(post)))
-
-}
-function displayComments(post){
-    const c = document.querySelector("#comments")
-
-    post.comments.forEach(comment => c.innerText = comment)
-
-
-}
 
 function fetchUser() {
     fetch(userURL+"/22")
@@ -29,26 +12,39 @@ function fetchUser() {
 }
 
 function printPosts(user){
-  user.posts.forEach(post => displayPosts(post))
+    user.posts.forEach(post => displayPosts(post))
 
-  const username = document.querySelector("#username")
-  username.innerText = user.name
-
+    const username = document.querySelector("#username")
+    username.innerText = `Welcome ${user.name}`
 }
 
 function displayPosts(post) {
-    const div = document.querySelector("#posts")
+    const div = document.querySelector("div.posts")
     const p = document.createElement("p")
-
-    const button = document.createElement("button")
     p.innerHTML = post.post 
+    p.classList.add("post")
 
-    button.innerText = post.likes
+    const postLikeBtn = document.createElement("button")
+    postLikeBtn.classList.add("p-like-btn")
+    postLikeBtn.innerHTML = `${post.likes} ♥`
     div.append(p)
-    p.append(button)
+    p.append(postLikeBtn)
     
+    post.comments.forEach(comment => {
+            const ul = document.createElement("ul")
+            ul.classList.add("comments")
+            const li = document.createElement("li")
+            li.innerHTML = comment.comment
+            
+            const commentLikeBtn = document.createElement("button")
+            commentLikeBtn.classList.add("c-like-btn")
+            commentLikeBtn.innerHTML = `${comment.likes} ♥`
+            li.append(commentLikeBtn)
+            ul.append(li)
+            p.append(ul)
 
+    })
+    
 }
-
 
 
