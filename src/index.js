@@ -4,17 +4,19 @@ const commentURL = "http://localhost:3000/comments/"
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchUser()
-    // postLikeBtn.addEventListener("click", likePost)
-    // commentLikeBtn.addEventListener("click", likeComment)
 })
 
 function fetchUser() {
     fetch(userURL+"/22")
     .then(res => res.json())
-    .then(printPosts)
+    .then(user => {
+        printPosts(user)
+        addNewPost(user) 
+    })
 }
 
 function printPosts(user){
+    
     const username = document.querySelector("#username")
     const userImage = document.querySelector("a.user-image")
     const img = document.createElement("img")
@@ -97,11 +99,36 @@ function printPosts(user){
                 })
 
             commentLi.append(commentLikeBtn)
-
             commentUl.append(commentLi)
             extLi.append(commentUl)
         })
     })
 }
 
+function addNewPost(user) {
 
+    const newPostForm = document.querySelector("form.add-post-form")
+
+    newPostForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        let post = e.target[0].value  
+        let likes = 0
+        let user_id = user.id
+
+        fetch(postURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                post, likes, user_id
+            })
+        })
+        .then(res => res.json())
+        .then(newPost => {
+            printPosts(newPost)
+        })
+        form.reset()
+    })
+}
