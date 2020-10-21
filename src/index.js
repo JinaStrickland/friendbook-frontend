@@ -75,28 +75,29 @@ function printPosts(user){
             commentLi.classList.add("list-group-item")
             commentLi.innerHTML = comment.comment 
 
-            // const commentLikeBtn = document.createElement("button")
-            // commentLikeBtn.classList.add("c-like-btn")
-            // commentLikeBtn.innerHTML = `${comment.likes} ♥`
+            const commentLikeBtn = document.createElement("button")
+            commentLikeBtn.classList.add("c-like-btn")
+            commentLikeBtn.innerHTML = `${comment.likes} ♥`
 
-                // commentLikeBtn.addEventListener("click", () => {
-                //     let likes = comment.likes
-                //     fetch(commentURL + comment.id, {
-                //         method: "PATCH",
-                //         headers: {
-                //             "Content-Type": "application/json"
-                //         },
-                //         body: JSON.stringify({
-                //             likes: ++post.likes
-                //         })
-                //     })
-                //     .then(res => res.json())
-                //     .then(updatedLikes => {
-                //         commentLikeBtn.innerHTML = `${updatedLikes.likes} ♥` 
-                //     })
-                // })
+                commentLikeBtn.addEventListener("click", () => {
+                    
+                    fetch(commentURL + comment.id, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            likes: ++comment.likes
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(updatedLikes => {
+                        commentLikeBtn.innerHTML = `${updatedLikes.likes} ♥` 
+                    })
+                })
 
-            // commentLi.append(commentLikeBtn)
+            commentLi.append(commentLikeBtn)
+
             commentUl.append(commentLi)
             extLi.append(commentUl)
         })
