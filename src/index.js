@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function fetchUser() {
-    fetch(userURL+"/22")
+    fetch(userURL+"5")
     .then(res => res.json())
     .then(user => {
         printPosts(user)
@@ -20,11 +20,14 @@ function printPosts(user){
     const username = document.querySelector("#username")
     const userImage = document.querySelector("a.user-image")
     const img = document.createElement("img")
+
     username.innerText = user.name
     img.src = user.image 
     userImage.append(img)
   
     user.posts.forEach(post => {
+
+        
         const div = document.querySelector("div#posts")
 
         const newDiv = document.createElement("div")
@@ -41,10 +44,25 @@ function printPosts(user){
         li.classList.add("list-group-item")
         li.innerHTML = post.post 
 
+        const postDeleteBtn = document.createElement("button")
+        postDeleteBtn.classList.add("pd-like-btn")
+        postDeleteBtn.innerHTML= "x"
+        li.append(postDeleteBtn)
+
+        postDeleteBtn.addEventListener("click", () => {
+            fetch(postURL + post.id, {
+                method: "DELETE" , 
+            })
+            .then(() => li.remove())
+
+        })
+
         const postLikeBtn = document.createElement("button")
         postLikeBtn.classList.add("p-like-btn")
         postLikeBtn.innerHTML = `${post.likes} ♥`
+
         
+
             postLikeBtn.addEventListener("click", () => {
                 let likes = post.likes
                 fetch(postURL + post.id, {
@@ -115,6 +133,7 @@ function addNewPost(user) {
         let likes = 0
         let user_id = user.id
 
+            
         fetch(postURL, {
             method: "POST",
             headers: {
@@ -127,8 +146,64 @@ function addNewPost(user) {
         })
         .then(res => res.json())
         .then(newPost => {
-            printPosts(newPost)
+           appendPost(newPost)
+           newPostForm.reset()
         })
-        form.reset()
+        
     })
+}
+
+function appendPost(newPost){
+
+        const div = document.querySelector("div#posts")
+        const newDiv = document.createElement("div")
+        newDiv.classList.add("panel-heading")
+        newDiv.innerHTML = username.innerText 
+    
+        const divBody = document.createElement("div")
+        divBody.classList.add("panel-body")
+        divBody.innerHTML = `posted at:  ${newPost.created_at}`
+    
+        const ul = document.createElement("ul")
+        ul.classList.add("list-group")
+        const li = document.createElement("li")
+        li.classList.add("list-group-item")
+        li.innerHTML = newPost.post 
+
+        const postLikeBtn = document.createElement("button")
+        postLikeBtn.classList.add("p-like-btn")
+        postLikeBtn.innerHTML = `${newPost.likes} ♥`
+        
+            postLikeBtn.addEventListener("click", () => {
+                let likes = newPost.likes
+                fetch(postURL + newPost.id, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        likes: ++newPost.likes
+                    })
+                })
+                .then(res => res.json())
+                .then(updatedLikes => {
+                    postLikeBtn.innerHTML = `${updatedLikes.likes} ♥` 
+                })
+            })
+
+        div.append(newDiv)
+        newDiv.append(divBody)
+        divBody.append(ul)
+        ul.append(li)
+        li.append(postLikeBtn)
+
+}
+
+function deletePost(post){
+    
+}
+
+function deleteComment(){
+
+
 }
