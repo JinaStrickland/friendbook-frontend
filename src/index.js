@@ -1,8 +1,11 @@
 const postURL = "http://localhost:3000/posts/"
 const userURL = "http://localhost:3000/users/"
+const commentURL = "http://localhost:3000/comments/"
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchUser()
+    // postLikeBtn.addEventListener("click", likePost)
+    // commentLikeBtn.addEventListener("click", likeComment)
 })
 
 function fetchUser() {
@@ -13,7 +16,11 @@ function fetchUser() {
 
 function printPosts(user){
     const username = document.querySelector("#username")
+    const userImage = document.querySelector("a.user-image")
+    const img = document.createElement("img")
     username.innerText = user.name
+    img.src = user.image 
+    userImage.append(img)
   
     user.posts.forEach(post => {
         const div = document.querySelector("div#posts")
@@ -68,11 +75,28 @@ function printPosts(user){
             commentLi.classList.add("list-group-item")
             commentLi.innerHTML = comment.comment 
 
-            const commentLikeBtn = document.createElement("button")
-            commentLikeBtn.classList.add("c-like-btn")
-            commentLikeBtn.innerHTML = `${comment.likes} ♥`
+            // const commentLikeBtn = document.createElement("button")
+            // commentLikeBtn.classList.add("c-like-btn")
+            // commentLikeBtn.innerHTML = `${comment.likes} ♥`
 
-            commentLi.append(commentLikeBtn)
+                // commentLikeBtn.addEventListener("click", () => {
+                //     let likes = comment.likes
+                //     fetch(commentURL + comment.id, {
+                //         method: "PATCH",
+                //         headers: {
+                //             "Content-Type": "application/json"
+                //         },
+                //         body: JSON.stringify({
+                //             likes: ++post.likes
+                //         })
+                //     })
+                //     .then(res => res.json())
+                //     .then(updatedLikes => {
+                //         commentLikeBtn.innerHTML = `${updatedLikes.likes} ♥` 
+                //     })
+                // })
+
+            // commentLi.append(commentLikeBtn)
             commentUl.append(commentLi)
             extLi.append(commentUl)
         })
