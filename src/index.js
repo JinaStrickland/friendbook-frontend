@@ -130,35 +130,33 @@ function printPosts(user){
 }
 
 function addNewPost(user) {
-
     const newPostForm = document.querySelector("form.add-post-form")
 
-        newPostForm.addEventListener("submit", (e) => {
-            e.preventDefault()
-            let post = e.target[0].value  
-            let likes = 0
-            let user_id = user.id
-                
-            fetch(postURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    post, likes, user_id
-                })
-            })
-            .then(res => res.json())
-            .then(newPost => {
-                    appendPost(newPost)
-                    newPostForm.reset()
+    newPostForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        let post = e.target[0].value  
+        let likes = 0
+        let user_id = user.id
+            
+        fetch(postURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                post, likes, user_id
             })
         })
+        .then(res => res.json())
+        .then(newPost => {
+                appendPost(newPost)
+                newPostForm.reset()
+        })
+    })
 }
 
 function appendPost(newPost){
-
     const divPosts = document.querySelector("div#posts")
     const divHeading = document.createElement("div")
     divHeading.classList.add("panel-heading")
@@ -174,9 +172,15 @@ function appendPost(newPost){
     li.classList.add("list-group-item")
     li.innerHTML = newPost.post 
 
+    divPosts.append(divHeading)
+    divHeading.append(divBody)
+    divBody.append(ul)
+    ul.append(li)
+
     const postLikeBtn = document.createElement("button")
     postLikeBtn.classList.add("p-like-btn")
     postLikeBtn.innerHTML = `${newPost.likes} ♥`
+    li.append(postLikeBtn)
     
         postLikeBtn.addEventListener("click", () => {
             let likes = newPost.likes
@@ -195,19 +199,15 @@ function appendPost(newPost){
             })
         })
 
-    divPosts.append(divHeading)
-    divHeading.append(divBody)
-    divBody.append(ul)
-    ul.append(li)
-    li.append(postLikeBtn)
+        const postDeleteBtn = document.createElement("button")
+        postDeleteBtn.classList.add("p-delete-btn")
+        postDeleteBtn.innerHTML= "x"
+        li.append(postDeleteBtn)
 
-}
-
-function deletePost(post){
-    
-}
-
-function deleteComment(){
-
-
+            postDeleteBtn.addEventListener("click", () => {
+                fetch(postURL + newPost.id, {
+                    method: "DELETE"
+                })
+                .then(() => divHeading.remove())
+            })
 }
