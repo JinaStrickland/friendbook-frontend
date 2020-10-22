@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function fetchUser() {
-    fetch(userURL+"5")
+    fetch(userURL+"8")
     .then(res => res.json())
     .then(user => {
         printPosts(user)
@@ -42,6 +42,18 @@ function printPosts(user){
         const li = document.createElement("li")
         li.classList.add("list-group-item")
         li.innerHTML = post.post 
+
+        const editBtn = document.createElement("button")
+        editBtn.classList.add("edit-btn")
+        editBtn.innerHTML = "edit post"
+        divBody.append(editBtn)
+
+            editBtn.addEventListener("click", (e) => {
+                let id = post.id 
+                let post = post.post 
+                let likes = post.likes 
+                // debugger 
+            })
 
         divPosts.append(divHeading)
         divHeading.append(divBody)
@@ -81,7 +93,22 @@ function printPosts(user){
                 })
                 .then(() => divHeading.remove())
             })
-    
+
+        const divBtn = document.createElement("div")
+        divBtn.classList.add("post-btn")
+        li.append(divBtn)
+
+        const addCommentBtn = document.createElement("button")
+        addCommentBtn.classList.add("add-comment")
+        addCommentBtn.innerHTML = "add comment"
+        divBtn.append(addCommentBtn)
+
+            addCommentBtn.addEventListener("click", () => {
+                // console.log(e.target)
+                // debugger
+            })
+
+
         post.comments.forEach(comment => {
             const extLi = document.querySelector("li.list-group-item")
 
@@ -211,3 +238,8 @@ function appendPost(newPost){
                 .then(() => divHeading.remove())
             })
 }
+
+
+// function addComment () {
+    
+// }
