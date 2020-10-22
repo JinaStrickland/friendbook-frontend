@@ -31,15 +31,15 @@ function printPosts(user){
         const divHeading = document.createElement("div")
         divHeading.classList.add("panel-heading")
         divHeading.id = `post-${post.id}`
+        divHeading.innerHTML = username.innerText 
+        divHeading.setAttribute("value", `${name}`)
 
-        // divHeading.setAttribute("name", `${name}`)
-        // divHeading.setAttribute("value", `${name}`)
-        // console.log(divHeading.id)
-        // console.log(divHeading.id.split("-")[1])
+        // divHeading.id = `post-${post.id}`
+        // let idOfThePost = divHeading.id.split("-")[1]
+        
         // divHeading.addEventListener("click", (e) => {
         //     console.log(e.target.id)
         // })
-        divHeading.innerHTML = username.innerText 
 
         const divBody = document.createElement("div")
         divBody.classList.add("panel-body")
@@ -53,11 +53,13 @@ function printPosts(user){
 
         const editBtn = document.createElement("button")
         editBtn.classList.add("edit-btn")
+        editBtn.id = `post-${post.id}`
         editBtn.innerHTML = "edit post"
         divBody.append(editBtn)
 
             editBtn.addEventListener("click", (e) => {
-                editPost(post)
+                let postId = e.target.id.split("-")[1]
+                editPost(e, post)
             })
 
         divPosts.append(divHeading)
@@ -89,11 +91,13 @@ function printPosts(user){
         
         const postDeleteBtn = document.createElement("button")
         postDeleteBtn.classList.add("p-delete-btn")
+        postDeleteBtn.id = `post-${post.id}`  
         postDeleteBtn.innerHTML= " x "
         li.append(postDeleteBtn)
 
             postDeleteBtn.addEventListener("click", (e) => {
-                fetch(postURL + post.id, {
+                let deletePostId = e.target.id.split("-")[1]
+                fetch(postURL + deletePostId, { 
                     method: "DELETE"
                 })
                 .then(() => divHeading.remove())
@@ -245,9 +249,7 @@ function appendPost(newPost){
 }
 
 
-function editPost (post) {
-    let extPost = post.post 
-
+function editPost (e, post) {
     const extDiv = document.querySelector("div.panel-body")
     const editPostBtn = document.querySelector("button")
     editPostBtn.classList.add("edit-post-btn")
@@ -257,8 +259,7 @@ function editPost (post) {
     const input = document.createElement("input")
     editForm.classList.add("edit-form")
     input.setAttribute("type", "text")
-    input.setAttribute("value", `${extPost}`)
-    input.innerHTML = extPost
+    input.innerHTML = post.post 
     editForm.append(input)
     editPostBtn.append(editForm)
 
@@ -267,23 +268,30 @@ function editPost (post) {
     editSubmitBtn.innerHTML = "Submit"
     editForm.append(editSubmitBtn)
 
-    updatePost(post)
+    updatePost(e, post)
 }
 
-function updatePost(post) {
+function updatePost(e, post) {
     const form = document.querySelector("form.edit-form")
-    let postId = post.id 
+    const divHeading = document.querySelector("div.panel-heading")
+    let headingId = divHeading.id.split("-")[1]
+    let editPostId = e.target.id.split("-")[1]
+
+    const li = document.querySelector("li.list-group-item")
+
+    
+
+    console.log(headingId)
+    console.log(editPostId)
+
     let likes = post.likes 
     let created = post.created_at 
-
-    const divHeading = document.querySelector("div.panel-heading")
 
     form.addEventListener("submit", (e) => {
         e.preventDefault()
         let newPost = e.target[0].value 
-        // let newPostId = postId
 
-        fetch(postURL + postId, {
+        fetch(postURL + editPostId, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -294,7 +302,8 @@ function updatePost(post) {
         })
         .then(res => res.json())
         .then(editedPost => {
-            appendPost(editedPost)
+            debugger
+            li.innerHTML = editedPost.post
             form[0].value = ""
         })
     })
