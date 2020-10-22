@@ -16,6 +16,7 @@ function fetchUser() {
 }
 
 function printPosts(user){
+    let name = user.name 
     
     const username = document.querySelector("#username")
     const userImage = document.querySelector("a.user-image")
@@ -24,13 +25,20 @@ function printPosts(user){
     username.innerText = user.name
     img.src = user.image 
     userImage.append(img)
-  
+
     user.posts.forEach(post => {
         const divPosts = document.querySelector("div#posts")
-
         const divHeading = document.createElement("div")
         divHeading.classList.add("panel-heading")
-        divHeading.id = "posts"
+
+        divHeading.setAttribute("name", `${name}`)
+        divHeading.setAttribute("value", `${name}`)
+        divHeading.id = `post-${post.id}`
+        // console.log(divHeading.id)
+        // console.log(divHeading.id.split("-")[1])
+        // divHeading.addEventListener("click", (e) => {
+        //     console.log(e.target.id)
+        // })
         divHeading.innerHTML = username.innerText 
 
         const divBody = document.createElement("div")
@@ -49,10 +57,7 @@ function printPosts(user){
         divBody.append(editBtn)
 
             editBtn.addEventListener("click", (e) => {
-                let id = post.id 
-                let post = post.post 
-                let likes = post.likes 
-                // debugger 
+                editPost(post)
             })
 
         divPosts.append(divHeading)
@@ -87,7 +92,7 @@ function printPosts(user){
         postDeleteBtn.innerHTML= "x"
         li.append(postDeleteBtn)
 
-            postDeleteBtn.addEventListener("click", () => {
+            postDeleteBtn.addEventListener("click", (e) => {
                 fetch(postURL + post.id, {
                     method: "DELETE"
                 })
@@ -98,15 +103,15 @@ function printPosts(user){
         divBtn.classList.add("post-btn")
         li.append(divBtn)
 
-        const addCommentBtn = document.createElement("button")
-        addCommentBtn.classList.add("add-comment")
-        addCommentBtn.innerHTML = "add comment"
-        divBtn.append(addCommentBtn)
+        // const addCommentBtn = document.createElement("button")
+        // addCommentBtn.classList.add("add-comment")
+        // addCommentBtn.innerHTML = "add comment"
+        // divBtn.append(addCommentBtn)
 
-            addCommentBtn.addEventListener("click", () => {
-                // console.log(e.target)
-                // debugger
-            })
+            // addCommentBtn.addEventListener("click", () => {
+            //     console.log(e.target)
+            //     debugger
+            // })
 
 
         post.comments.forEach(comment => {
@@ -240,6 +245,93 @@ function appendPost(newPost){
 }
 
 
-// function addComment () {
+function editPost (post) {
+    let extPost = post.post 
+
+    const extDiv = document.querySelector("div.panel-body")
+    const editPostBtn = document.querySelector("button")
+    editPostBtn.classList.add("edit-post-btn")
+    extDiv.append(editPostBtn)
+
+    const editForm = document.createElement("form")
+    const input = document.createElement("input")
+    editForm.classList.add("edit-form")
+    input.setAttribute("type", "text")
+    input.setAttribute("value", `${extPost}`)
+    input.innerHTML = extPost
+    editForm.append(input)
+    editPostBtn.append(editForm)
+
+    const editSubmitBtn = document.createElement("button")
+    editSubmitBtn.setAttribute("type", "submit")
+    editSubmitBtn.innerHTML = "Submit"
+    editForm.append(editSubmitBtn)
+
+    updatePost(post)
+}
+
+function updatePost(post) {
+    const form = document.querySelector("form.edit-form")
+    let postId = post.id 
+    let likes = post.likes 
+    let created = post.created_at 
+
+    const divHeading = document.querySelector("div.panel-heading")
+
+    // let divId = divHeading.id.split("-")
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        let newPost = e.target[0].value 
+        // let newPostId = postId
+
+        fetch(postURL + postId, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                post: newPost
+            })
+        })
+        .then(res => res.json())
+        .then(editedPost => {
+            updateDom(editedPost)
+            form[0].value = ""
+        })
+    })
+}
+
+
+function updateDom(editedPost) {
+    const divPosts = document.querySelector("div#posts")
+    const divHeading = document.querySelector("div.panel-heading")
+    const divBody = document.createElement("div.panel-body")
     
-// }
+    divBody.innerHTML = `posted at:  ${editedPost.created_at}`
+    
+    const ul = document.createElement("ul.list-group")
+    const postLi = document.querySelector("li.list-group-item")
+    postLi.innerHTML = editedPost.post 
+
+    const editBtn = document.createElement("button")
+
+    const postLikeBtn = document.createElement("button")
+    postLikeBtn.classList.add("p-like-btn")
+    postLikeBtn.innerHTML = `${editedPost.likes} ♥`
+
+    divBody.append(editBtn)
+    divPosts.append(divHeading)
+    divHeading.append(divBody)
+    divBody.append(ul)
+    ul.append(postLi)
+    postLi.append(postLikeBtn)
+}
+
+// divHeading.id = `post-${post.id}`
+// console.log(divHeading.id)
+// console.log(divHeading.id.split("-")[1])
+// divHeading.addEventListener("click", (e) => {
+//     console.log(e.target.id)
+// })
+
