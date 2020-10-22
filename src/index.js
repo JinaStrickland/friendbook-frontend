@@ -30,10 +30,10 @@ function printPosts(user){
         const divPosts = document.querySelector("div#posts")
         const divHeading = document.createElement("div")
         divHeading.classList.add("panel-heading")
-
-        divHeading.setAttribute("name", `${name}`)
-        divHeading.setAttribute("value", `${name}`)
         divHeading.id = `post-${post.id}`
+
+        // divHeading.setAttribute("name", `${name}`)
+        // divHeading.setAttribute("value", `${name}`)
         // console.log(divHeading.id)
         // console.log(divHeading.id.split("-")[1])
         // divHeading.addEventListener("click", (e) => {
@@ -89,7 +89,7 @@ function printPosts(user){
         
         const postDeleteBtn = document.createElement("button")
         postDeleteBtn.classList.add("p-delete-btn")
-        postDeleteBtn.innerHTML= "x"
+        postDeleteBtn.innerHTML= " x "
         li.append(postDeleteBtn)
 
             postDeleteBtn.addEventListener("click", (e) => {
@@ -278,8 +278,6 @@ function updatePost(post) {
 
     const divHeading = document.querySelector("div.panel-heading")
 
-    // let divId = divHeading.id.split("-")
-
     form.addEventListener("submit", (e) => {
         e.preventDefault()
         let newPost = e.target[0].value 
@@ -296,39 +294,45 @@ function updatePost(post) {
         })
         .then(res => res.json())
         .then(editedPost => {
-            updateDom(editedPost)
+            appendPost(editedPost)
             form[0].value = ""
         })
     })
 }
 
 
-function updateDom(editedPost) {
-    const divPosts = document.querySelector("div#posts")
-    const divHeading = document.querySelector("div.panel-heading")
-    const divBody = document.createElement("div.panel-body")
+// function updateDom(editedPost) {
+//     const theDiv = document.querySelector("div#posts")
+//     const headingDiv = document.querySelector("div.panel-heading")
+//     const bodyDiv = document.querySelector("div.panel-body")
     
-    divBody.innerHTML = `posted at:  ${editedPost.created_at}`
+//     bodyDiv.innerHTML = `posted at:  ${editedPost.created_at}`
     
-    const ul = document.createElement("ul.list-group")
-    const postLi = document.querySelector("li.list-group-item")
-    postLi.innerHTML = editedPost.post 
+//     const theUl = document.querySelector("ul.list-group")
+//     const theLi = document.querySelector("li.list-group-item")
+//     theLi.innerHTML = editedPost.post 
 
-    const editBtn = document.createElement("button")
+//     const editPostBtn = document.querySelector("button")
+//     editPostBtn.innerHTML = "edit post"
 
-    const postLikeBtn = document.createElement("button")
-    postLikeBtn.classList.add("p-like-btn")
-    postLikeBtn.innerHTML = `${editedPost.likes} ♥`
+//     const editLikeBtn = document.querySelector("button.p-like-btn")
+//     editLikeBtn.innerHTML = `${editedPost.likes} ♥`
 
-    divBody.append(editBtn)
-    divPosts.append(divHeading)
-    divHeading.append(divBody)
-    divBody.append(ul)
-    ul.append(postLi)
-    postLi.append(postLikeBtn)
-}
+//     const editDeleteBtn = document.querySelector("button.p-delete-btn")
+//     editDeleteBtn.innerHTML= " x "
+    
+//     theDiv.append(headingDiv)
+//     headingDiv.append(bodyDiv)
+//     bodyDiv.append(editPostBtn)
+//     bodyDiv.append(theUl)
+//     theUl.append(theLi)
+//     theLi.append(editLikeBtn)
+//     theLi.append(editDeleteBtn)
 
-// divHeading.id = `post-${post.id}`
+//     debugger
+// }
+
+// headingDiv.id = `post-${post.id}`
 // console.log(divHeading.id)
 // console.log(divHeading.id.split("-")[1])
 // divHeading.addEventListener("click", (e) => {
