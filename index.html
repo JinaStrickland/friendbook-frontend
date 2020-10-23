@@ -8,8 +8,8 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
     </head>
 
-    <body>
-       
+    <body id= "back">
+      <h6>Weather Today: ⛅ Recipe of the Week: 🍜</h6>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand" href="#"> <img src="src/LOGO.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
@@ -27,8 +27,11 @@
                 </div>
               </nav>
         </header>
+        
+        <div class="bg"></div>
         <main>
-            <div>
+         
+            <div id= "postColored">
                 <strong> 
                     <!-- username and image at top here -->
                     <h2 id="username"> </h2>
@@ -40,11 +43,13 @@
             <br />
             <br />
               <!-- new post form here  -->
-            <div class="form">
+            <div class="form" >
                 <form class="add-post-form">
                   <input type="text" name="post" value="" placeholder="Share your thoughts..." class="form-control"/>
                     <br />
+                   
                   <button type="submit" name="submit" value="Post" class="btn btn-info"> Post </button>
+            
                 </form>
               </div>
               <br />
@@ -52,7 +57,7 @@
 
             <div>
                <!-- all the post here -->
-                <div class="panel panel-default" id="posts">
+                <div class="panel panel-default"  id="posts" >
                         <!-- <div class="panel-heading">
                           <div class="panel-body">
                             <button type="submit" class="edit-post-btn">EDIT POST</button>
@@ -75,13 +80,14 @@
                                 </div>
                             </ul>
                           </div> -->
+                
                         </div>
                 </div>
            
             </div>
 
         </main>
-
+        
         <footer>
             <p>Friendbook</p>
         </footer>
