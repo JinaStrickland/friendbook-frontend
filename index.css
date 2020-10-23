@@ -1,5 +1,7 @@
 main {
     padding: 20px;
+    background-color :#daecf2 ;
+    text-align: center;
 }
 
 .user-image img {
@@ -8,7 +10,10 @@ main {
 }
 body, html {
     height: 100%;
+    background-color :#daecf2 ;
+  
   }
+ 
 .bg {
     /* The image used */
     background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
@@ -41,9 +46,12 @@ body, html {
 }
 
 #back{
-    color:#537294;
+    color: #537294;
 }
 
 #postColored{
-    color: red;
+    color:#537294;
+    background-color: #daecf2;
+    text-align: center;
 }
+

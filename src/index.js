@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function fetchUser() {
-    fetch(userURL+"8")
+    fetch(userURL+"11")
     .then(res => res.json())
     .then(user => {
         printPosts(user)
@@ -100,6 +100,7 @@ function printPosts(user){
         //ading a class name 
         postDeleteBtn.classList.add("p-delete-btn")
         postDeleteBtn.classList.add("btn-info")
+        
         postDeleteBtn.setAttribute("type", "button")
         postDeleteBtn.classList.add("btn")
         postDeleteBtn.classList.add("btn-sm")
