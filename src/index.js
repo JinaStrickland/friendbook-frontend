@@ -324,10 +324,11 @@ function editPost (post) {
     editPostBtn.append(editForm)
 
     const editSubmitBtn = document.createElement("button")
-    editSubmitBtn.setAttribute("type", "submit")
+    // editSubmitBtn.setAttribute("type", "submit")
     editSubmitBtn.setAttribute("type", "button")
     editSubmitBtn.classList.add("btn")
     editSubmitBtn.classList.add("btn-sm")
+    editSubmitBtn.classList.add("btn-primary")
     editSubmitBtn.innerHTML = "Submit"
     editForm.append(editSubmitBtn)
 
