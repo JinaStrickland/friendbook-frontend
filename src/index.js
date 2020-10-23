@@ -87,13 +87,22 @@ function printPosts(user){
                 })
             })
         
+        //creating a button element
         const postDeleteBtn = document.createElement("button")
+        //ading a class name 
         postDeleteBtn.classList.add("p-delete-btn")
+        //innertext of Delete Button
         postDeleteBtn.innerHTML= " x "
+        //adding delete button to the li
         li.append(postDeleteBtn)
+        
+        //setting an id attribute 
+        postDeleteBtn.id = 'post-${post.id}'
+
 
             postDeleteBtn.addEventListener("click", (e) => {
-                fetch(postURL + post.id, {
+                
+                fetch(postURL + e.target.id.split("-")[1], {
                     method: "DELETE"
                 })
                 .then(() => divHeading.remove())
@@ -146,15 +155,21 @@ function printPosts(user){
             const commentDeleteBtn = document.createElement("button")
             commentDeleteBtn.classList.add("c-delete-btn")
             commentDeleteBtn.innerHTML= "x"
-    
-                commentDeleteBtn.addEventListener("click", () => {
-                    fetch(commentURL + comment.id, {
+            
+                
+            commentDeleteBtn.id = 'comment-${comment.id}'
+            //debugger
+            commentLi.append(commentDeleteBtn)
+
+                commentDeleteBtn.addEventListener("click", (e) => {
+                    //debugger
+                    fetch(commentURL + e.target.id.split("-")[1], {
                         method: "DELETE"
                     })
                     .then(() => commentLi.remove())
                 })
 
-            commentLi.append(commentLikeBtn, commentDeleteBtn)
+            commentLi.append(commentLikeBtn)
             commentUl.append(commentLi)
             extLi.append(commentUl)
         })
@@ -189,6 +204,7 @@ function addNewPost(user) {
 }
 
 function appendPost(newPost){
+    //debugger
     const divPosts = document.querySelector("div#posts")
     const divHeading = document.createElement("div")
     divHeading.classList.add("panel-heading")
