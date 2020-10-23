@@ -324,8 +324,8 @@ function editPost (post) {
     editPostBtn.append(editForm)
 
     const editSubmitBtn = document.createElement("button")
-    // editSubmitBtn.setAttribute("type", "submit")
-    editSubmitBtn.setAttribute("type", "button")
+    editSubmitBtn.setAttribute("type", "submit")
+ 
     editSubmitBtn.classList.add("btn")
     editSubmitBtn.classList.add("btn-sm")
     editSubmitBtn.classList.add("btn-primary")
@@ -343,11 +343,12 @@ function updatePost(post) {
 
     const divHeading = document.querySelector("div.panel-heading")
 
+    console.log("before even tlistener")
     form.addEventListener("submit", (e) => {
+        console.log("dskluhfkjsdfhkjsdhf")
         e.preventDefault()
         let newPost = e.target[0].value 
         // let newPostId = postId
-
         fetch(postURL + postId, {
             method: "PATCH",
             headers: {
