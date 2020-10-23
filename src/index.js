@@ -53,6 +53,10 @@ function printPosts(user){
 
         const editBtn = document.createElement("button")
         editBtn.classList.add("edit-btn")
+        editBtn.setAttribute("type", "button")
+        editBtn.classList.add("btn")
+        editBtn.classList.add("btn-sm")
+        editBtn.classList.add("btn-primary")
         editBtn.innerHTML = "edit post"
         divBody.append(editBtn)
 
@@ -67,6 +71,10 @@ function printPosts(user){
 
         const postLikeBtn = document.createElement("button")
         postLikeBtn.classList.add("p-like-btn")
+        postLikeBtn.setAttribute("type", "button")
+        postLikeBtn.classList.add("btn")
+        postLikeBtn.classList.add("btn-sm")
+        postLikeBtn.classList.add("btn-danger")
         postLikeBtn.innerHTML = `${post.likes} ♥`
         li.append(postLikeBtn)
 
@@ -91,6 +99,10 @@ function printPosts(user){
         const postDeleteBtn = document.createElement("button")
         //ading a class name 
         postDeleteBtn.classList.add("p-delete-btn")
+        postDeleteBtn.classList.add("btn-info")
+        postDeleteBtn.setAttribute("type", "button")
+        postDeleteBtn.classList.add("btn")
+        postDeleteBtn.classList.add("btn-sm")
         //innertext of Delete Button
         postDeleteBtn.innerHTML= " x "
         //adding delete button to the li
@@ -134,6 +146,10 @@ function printPosts(user){
 
             const commentLikeBtn = document.createElement("button")
             commentLikeBtn.classList.add("c-like-btn")
+            commentLikeBtn.classList.add("btn-danger")
+            commentLikeBtn.setAttribute("type", "button")
+            commentLikeBtn.classList.add("btn")
+            commentLikeBtn.classList.add("btn-sm")
             commentLikeBtn.innerHTML = `${comment.likes} ♥`
 
                 commentLikeBtn.addEventListener("click", () => {
@@ -154,6 +170,10 @@ function printPosts(user){
 
             const commentDeleteBtn = document.createElement("button")
             commentDeleteBtn.classList.add("c-delete-btn")
+            commentDeleteBtn.classList.add("btn-info")
+            commentDeleteBtn.setAttribute("type", "button")
+            commentDeleteBtn.classList.add("btn")
+            commentDeleteBtn.classList.add("btn-sm")
             commentDeleteBtn.innerHTML= "x"
             
                 
@@ -220,6 +240,19 @@ function appendPost(newPost){
     li.classList.add("list-group-item")
     li.innerHTML = newPost.post 
 
+    const editBtn = document.createElement("button")
+    editBtn.classList.add("edit-btn")
+    editBtn.classList.add("btn-primary")
+    editBtn.setAttribute("type", "button")
+    editBtn.classList.add("btn")
+    editBtn.classList.add("btn-sm")
+    editBtn.innerHTML = "edit post"
+    divBody.append(editBtn)
+
+        editBtn.addEventListener("click", (e) => {
+            editPost(post)
+        })
+
     divPosts.append(divHeading)
     divHeading.append(divBody)
     divBody.append(ul)
@@ -227,6 +260,10 @@ function appendPost(newPost){
 
     const postLikeBtn = document.createElement("button")
     postLikeBtn.classList.add("p-like-btn")
+    postLikeBtn.classList.add("btn-danger")
+    postLikeBtn.setAttribute("type", "button")
+    postLikeBtn.classList.add("btn")
+    postLikeBtn.classList.add("btn-sm")
     postLikeBtn.innerHTML = `${newPost.likes} ♥`
     li.append(postLikeBtn)
     
@@ -249,6 +286,10 @@ function appendPost(newPost){
 
         const postDeleteBtn = document.createElement("button")
         postDeleteBtn.classList.add("p-delete-btn")
+        postDeleteBtn.classList.add("btn-info")
+        postDeleteBtn.setAttribute("type", "button")
+        postDeleteBtn.classList.add("btn")
+        postDeleteBtn.classList.add("btn-sm")
         postDeleteBtn.innerHTML= "x"
         li.append(postDeleteBtn)
 
@@ -267,6 +308,10 @@ function editPost (post) {
     const extDiv = document.querySelector("div.panel-body")
     const editPostBtn = document.querySelector("button")
     editPostBtn.classList.add("edit-post-btn")
+    editPostBtn.classList.add("btn-primary")
+    editPostBtn.setAttribute("type", "button")
+    editPostBtn.classList.add("btn")
+    editPostBtn.classList.add("btn-sm")
     extDiv.append(editPostBtn)
 
     const editForm = document.createElement("form")
@@ -280,6 +325,9 @@ function editPost (post) {
 
     const editSubmitBtn = document.createElement("button")
     editSubmitBtn.setAttribute("type", "submit")
+    editSubmitBtn.setAttribute("type", "button")
+    editSubmitBtn.classList.add("btn")
+    editSubmitBtn.classList.add("btn-sm")
     editSubmitBtn.innerHTML = "Submit"
     editForm.append(editSubmitBtn)
 
@@ -348,10 +396,4 @@ function updatePost(post) {
 //     debugger
 // }
 
-// headingDiv.id = `post-${post.id}`
-// console.log(divHeading.id)
-// console.log(divHeading.id.split("-")[1])
-// divHeading.addEventListener("click", (e) => {
-//     console.log(e.target.id)
-// })
 
